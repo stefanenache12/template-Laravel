@@ -5,7 +5,8 @@
 
 2. Apro il terminale ed eseguo il comando composer install
 
-3. Dopo l'esecuzione di composer install, eseguo nel terminale il comando php artisan key:generate
+3. Dopo l'esecuzione di composer install
+     seguo nel terminale il comando php artisan key:generate
 
 4. Dopo l'esecuzione di php artisan key:generate, eseguo nel terminale il comando npm i
 
@@ -14,15 +15,56 @@
      b. Eseguo il comando npm run build e poi avvio il server di Laravel con php artisan serve
 
 
-CONESSIONE DATABASE
+6. CONESSIONE DATABASE
 
-In file .env DB_DATABASE aggiungi nome del tuo Database
+     In file .env DB_DATABASE aggiungi nome del tuo Database
+
+7. CREAZIONE TABELLE DB(MIGRATION)
 
 
-CREAZIONE CONTROLLER
+      public function up(): void
+    {
+        Schema::create('trains', function (Blueprint $table) {
+            $table->id();
+            $table->string('train_company',32);
+            $table->string('departure_station',32);
+            $table->string('arrival_station',32);
+        });
+    }
 
-php artisan make:controller FolderName/FileName
+     php artisan make:migration create_users_table
 
-CREAZIONE MODEL(CLASSE)
+     php artisan migrate  (AGGIUNGI TABELLA AL TUO DB)
 
-php artisan make:model NomeDellaClasse
+     php artisan migrate:rollback (CANCELLA TABELLA DA TUO DB)
+
+8. CREAZIONE MODEL(CLASSE)
+     php artisan make:model NomeDellaClasse
+
+9. CREAZIONE SEEDER(INSERIMENTO DATI IN DB)
+
+     php artisan make:seeder UsersTableSeeder
+
+          public function run(): void
+    {
+        for ($i=0; $i < 15; $i++) { 
+
+            $train = new Train();
+
+            $train->train_company = fake()->word();
+            $train->departure_station = fake()->word();
+            $train->arrival_station = fake()->word();
+            $train->departure_time = fake()->dateTimeBetween('-3 day');
+            
+            $train->save();
+        }
+    }
+
+     php artisan db:seed --class=UsersTableSeeder (AGGIUNGI DATI AL DB)
+
+10. CREAZIONE CONTROLLER
+
+     php artisan make:controller FolderName/FileName
+
+
+
